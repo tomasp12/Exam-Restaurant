@@ -1,0 +1,14 @@
+OrderNr: 80af9f60-6c8e-40aa-8aa0-6d93e9428e85
+Order data:  23-01-30 16:08
+5 table
+5 customers
+Meals:
+ Pica 12,99 €
+ Pica 12,99 €
+ Pica 12,99 €
+ Pica 12,99 €
+ Tea 1,99 €
+ Tea 1,99 €
+ Tea 1,99 €
+ Cola 2,59 €
+         Total : 60,52 €
