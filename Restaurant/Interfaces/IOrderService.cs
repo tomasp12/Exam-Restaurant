@@ -10,7 +10,6 @@ namespace Restaurant.Interfaces
         public int PayOrder(int orderId);
         public int FindNotPaidOrder();
         public bool CheckIsOrderInList(int tableNumber, List<Order> list);
-
         public void ShowAllOrder(int orderId);
         public void CalculateTotal(int orderId);
 

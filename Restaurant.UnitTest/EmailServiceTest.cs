@@ -11,7 +11,7 @@ namespace Restaurant.UnitTest
         {
             //1. Arrange
             var email = "test@test.txt";            
-            var emailService = new EmailService();
+            var emailService = new EmailService(new UiService());
             //2. Act
             var result = emailService.EmailIsValid(email);
             //3. Assert            

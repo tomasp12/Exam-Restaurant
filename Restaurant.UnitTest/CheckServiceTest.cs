@@ -14,9 +14,9 @@ namespace Restaurant.UnitTest
             //1. Arrange
             var path = "test.txt";
             var text = "test string";
-            var checkService = new ChecksService();
+            var checkService = new ChecksService(new UiService());
             //2. Act
-            checkService.WriteTextToFile (path, text);
+            var task =checkService.WriteTextToFile (path, text);
             //3. Assert
             var result = File.Exists(path);
             Assert.IsTrue(result);

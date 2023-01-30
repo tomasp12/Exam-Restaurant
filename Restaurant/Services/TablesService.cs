@@ -17,10 +17,9 @@ namespace Restaurant.Services
         public void SetTableStatus(int tableNumber)
         {
             if (tableNumber == 0) return;
-            DbRepository<Table> data = new();
             var row = _tableRepository.GetTableList().First(x => x.TableNumber == tableNumber);
             row.IsOccupied ^= true;
-            data.Update(row);
+            _tableRepository.UpdateTableStatus(row);
         }
         public int ChooseFreeTable(int customersNumber)
         {
@@ -33,6 +32,7 @@ namespace Restaurant.Services
                 _ui.OutputMessage(ErrorMessage.Table);
                 return 0;
             }
+
             var tableNumber = _ui.ShowTableChoose(customersNumber, offeredTableNumber);
             var freeTableList = new List<Table>(tablesList.Where(x => x.IsOccupied == false));
             if (CheckIsTableInList(tableNumber, freeTableList))

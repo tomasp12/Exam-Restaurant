@@ -62,11 +62,6 @@ namespace Restaurant.Services
             PauseOutput();
         }
 
-        private void OutputErrorText()
-        {
-            OutputText("Input Error");
-            PauseOutput();
-        }
         public int AskChoose(string text)
         {
 
@@ -77,13 +72,13 @@ namespace Restaurant.Services
             int input = 0;
             bool success = false;
             while (!success)
-            {                   
+            {
                 success = int.TryParse(Console.ReadLine(), out input);
                 if (!success)
                 {
                     OutputText("Invalid input. Please try again.");
                 }
-            }   
+            }
             return input;
         }
 
@@ -181,19 +176,17 @@ namespace Restaurant.Services
             OutputContinueText();
         }
 
-        public string AskEmail()
+        public string? AskEmail()
         {
             while (true)
             {
-
-                string? email = "";
                 OutputText("Enter Email (empty no email send):");
-                email = Console.ReadLine();
+                string? email = Console.ReadLine();
                 if (email == "")
                 {
                     return "";
                 }
-                var emailService = new EmailService();
+                var emailService = new EmailService(new UiService());
                 if (emailService.EmailIsValid(email))
                 {
                     return email;

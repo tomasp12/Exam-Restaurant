@@ -9,11 +9,10 @@ namespace Restaurant
         static void Main(string[] args)
         {
             int[] customers = { 5, 4, 2, 9, 4, 1, 3 };
-
-
+            
             var userInterface = new UiService();
-            var emailService = new EmailService();
-            var checksService = new ChecksService();
+            var emailService = new EmailService(userInterface);
+            var checksService = new ChecksService(userInterface);
             var tableService = new TablesService(userInterface);
             var foodMenu = new MenuService<Food>(userInterface);
             var drinkMenu = new MenuService<Drink>(userInterface);
@@ -51,7 +50,7 @@ namespace Restaurant
                         tableNumber = orderService.PayOrder(orderId);
                         tableService.SetTableStatus(tableNumber);
                         checksService.SaveChecks(orderId);
-                        emailService.SendEmail(orderId);
+                        var task = emailService.SendEmail(orderId);
 
                         break;
                     case MenuChoose.Exit:

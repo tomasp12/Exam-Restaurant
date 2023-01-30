@@ -1,5 +1,4 @@
-﻿
-using Restaurant.Interfaces;
+﻿using Restaurant.Interfaces;
 
 namespace Restaurant.Repositories
 {

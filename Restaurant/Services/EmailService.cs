@@ -1,9 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
-using Restaurant.Repositories;
-using System.ComponentModel.Design;
+﻿using Restaurant.Repositories;
 using System.Net;
 using System.Net.Mail;
-using System.Threading.Tasks;
+
 
 namespace Restaurant.Services
 {
@@ -12,18 +10,20 @@ namespace Restaurant.Services
         private readonly UiService _ui;
         private readonly OrderRepository _orderRepository;
         private readonly OrderItemRepository _orderItemRepository;
-        public EmailService()
+        private readonly ChecksService _checksService;
+        public EmailService(UiService ui)
         {   
-            _ui= new UiService();
+            _ui= ui;
             _orderRepository = new OrderRepository();
             _orderItemRepository = new OrderItemRepository();
+            _checksService = new ChecksService(_ui);
         }
-        public bool EmailIsValid(string email)
+        public bool EmailIsValid(string? email)
         {
             var valid = true;
             try
             {
-                var emailAddress = new MailAddress(email);
+                var emailAddress = new MailAddress(email!);
             }
             catch
             {
@@ -44,13 +44,14 @@ namespace Restaurant.Services
             {
                 try
                 {
-                    MailMessage message = new MailMessage();
-                    message.From = new MailAddress("restaurant@gmail.com");
+                    MailMessage message = new();
+                    message.From = new("restaurant@gmail.com");
                     message.To.Add($"{order.CustomerEmail}");
                     message.Subject = "Check from restaurant";
-                    var body = LoadCheck(order.OrderId.ToString());
+
+                    var body = _checksService.LoadCheck(order.OrderId.ToString());
                     message.Body = body;
-                    SmtpClient client = new SmtpClient("smtp.gmail.com", 587);
+                    SmtpClient client = new("smtp.gmail.com", 587);
                     client.UseDefaultCredentials = false;
                     client.Credentials = new NetworkCredential("tomyte", "ulssfwsjruueezbv");
                     client.EnableSsl = true;
@@ -62,25 +63,6 @@ namespace Restaurant.Services
                     _ui.PauseOutput();
                 }
             }
-
-
         }
-        public string LoadCheck(string orderId) 
-        {
-            try
-            {
-                string filePath = $"../../../Checks/{orderId}.txt";
-                return File.ReadAllText(filePath);                
-            }
-            catch (Exception ex)
-            {
-                _ui.OutputText("Error reading file: " + ex.Message);
-                _ui.PauseOutput();
-            }
-            return "";            
-
-        }
-        
-        
     }
 }

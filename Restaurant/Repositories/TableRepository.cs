@@ -18,6 +18,10 @@ namespace Restaurant.Repositories
             DbRepository<Table> data = new();
             return data.GetAll().First(x => x.TableNumber == tableNumber).IsOccupied;
         }
-
+        public void UpdateTableStatus(Table table)
+        {
+            DbRepository<Table> data = new();
+            data.Update(table);
+        }
     }
 }

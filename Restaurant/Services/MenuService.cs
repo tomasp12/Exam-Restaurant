@@ -49,9 +49,9 @@ namespace Restaurant.Services
             } while (true);
         }
 
-        private void SaveItem(int orderId, int menuiD)
+        private void SaveItem(int orderId, int menuId)
         {
-            var menuItem = GetItemById(menuiD);
+            var menuItem = GetItemById(menuId);
             var orderItem = new OrderItem()
             {
                 Name = menuItem.Name,
